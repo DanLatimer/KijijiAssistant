@@ -1,0 +1,42 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:0.12.1'
+        classpath 'com.jakewharton.sdkmanager:gradle-plugin:0.10.1'
+    }
+}
+
+apply plugin: "android-sdk-manager"
+apply plugin: "android"
+
+// Ensure versioning vars were set already
+if (!project.hasProperty('GIT_RELEASE')) {
+    ext.GIT_RELEASE = 'internal'
+}
+if (!project.hasProperty('VERSION_CODE')) {
+    ext.VERSION_CODE = 1
+}
+
+android {
+    compileSdkVersion 20
+    buildToolsVersion '20.0.0'
+
+
+    defaultConfig {
+        minSdkVersion 14
+        targetSdkVersion 20
+
+        versionCode VERSION_CODE
+        versionName GIT_RELEASE
+        // Use aioTV values by default, client flavors can override
+        packageName "tv.aio.android.client"
+        resValue "string", "app_name", "aioTV"
+
+    }
+}
+dependencies {
+    compile 'com.android.support:support-v4:19.+'
+}
