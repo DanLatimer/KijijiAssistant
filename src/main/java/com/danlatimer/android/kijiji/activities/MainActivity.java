@@ -46,6 +46,8 @@ public class MainActivity extends Activity
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
+
+        mNavigationDrawerFragment.selectItem(0);
     }
 
     @Override
@@ -61,15 +63,9 @@ public class MainActivity extends Activity
         fragmentManager.beginTransaction()
                 .replace(R.id.container, mMenuSection.getFragment())
                 .commit();
-    }
 
-    public void onSectionAttached(int number) {
-        if (mNavigationDrawerFragment == null) {
-            return;
-        }
-
-        MenuSection menuSection = mNavigationDrawerFragment.getMenuSection(number);
-        mTitle = menuSection.getSectionName();
+        mTitle = mMenuSection.getSectionName();
+        restoreActionBar();
     }
 
     public void restoreActionBar() {
@@ -78,7 +74,6 @@ public class MainActivity extends Activity
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setTitle(mTitle);
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -143,25 +138,6 @@ public class MainActivity extends Activity
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
             return rootView;
-        }
-
-        @Override
-        public void onAttach(Activity activity) {
-            super.onAttach(activity);
-            if (activity == null) {
-                return;
-            }
-
-            MainActivity mainActivity = (MainActivity) activity;
-
-            Bundle arguments = getArguments();
-            if (arguments == null) {
-                return;
-            }
-
-            int sectionNumber = arguments.getInt(ARG_SECTION_NUMBER);
-
-            mainActivity.onSectionAttached(sectionNumber);
         }
     }
 
