@@ -1,4 +1,4 @@
-package com.danlatimer.android.kijiji;
+package com.danlatimer.android.kijiji.fragments;
 
 
 import android.app.ActionBar;
@@ -16,7 +16,11 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
-import tv.aio.android.client.R;
+import com.danlatimer.android.kijiji.R;
+import com.danlatimer.android.kijiji.models.MenuSection;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.
@@ -54,7 +58,19 @@ public class NavigationDrawerFragment extends Fragment {
     private boolean mFromSavedInstanceState;
     private boolean mUserLearnedDrawer;
 
+    private List<MenuSection> mMenuSections = new ArrayList<MenuSection>();
+    private ArrayAdapter<MenuSection> mMenuSectionAdapter;
+
     public NavigationDrawerFragment() {
+    }
+
+    /**
+     * Add a MenuSection to the navigation drawer
+     *
+     * @param menuSection
+     */
+    public void addMenuSection(MenuSection menuSection) {
+        mMenuSectionAdapter.insert(menuSection, 0);
     }
 
     @Override
@@ -85,29 +101,42 @@ public class NavigationDrawerFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
+
         mDrawerListView = (ListView) inflater.inflate(
                 R.layout.fragment_navigation_drawer, container, false);
+
         mDrawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 selectItem(position);
             }
         });
-        mDrawerListView.setAdapter(new ArrayAdapter<String>(
+
+        mMenuSectionAdapter = new ArrayAdapter<MenuSection>(
                 getActionBar().getThemedContext(),
                 android.R.layout.simple_list_item_activated_1,
                 android.R.id.text1,
-                new String[]{
-                        getString(R.string.title_section1),
-                        getString(R.string.title_section2),
-                        getString(R.string.title_section3),
-                }));
+                mMenuSections);
+
+        mDrawerListView.setAdapter(mMenuSectionAdapter);
+
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
+
         return mDrawerListView;
     }
 
     public boolean isDrawerOpen() {
         return mDrawerLayout != null && mDrawerLayout.isDrawerOpen(mFragmentContainerView);
+    }
+
+    /**
+     * Get the MenuSection object in the index provided
+     *
+     * @param index
+     * @return
+     */
+    public MenuSection getMenuSection(int index) {
+        return mMenuSections.get(index);
     }
 
     /**
@@ -184,7 +213,7 @@ public class NavigationDrawerFragment extends Fragment {
         mDrawerLayout.setDrawerListener(mDrawerToggle);
     }
 
-    private void selectItem(int position) {
+    public void selectItem(int position) {
         mCurrentSelectedPosition = position;
         if (mDrawerListView != null) {
             mDrawerListView.setItemChecked(position, true);

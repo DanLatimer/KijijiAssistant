@@ -6,4 +6,4 @@
     android:divider="@android:color/transparent"
     android:dividerHeight="0dp"
     android:background="#cccc"
-    tools:context="com.danlatimer.android.kijiji.NavigationDrawerFragment" />
+    tools:context="com.danlatimer.android.kijiji.fragments.NavigationDrawerFragment" />
