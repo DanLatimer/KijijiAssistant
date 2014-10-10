@@ -6,6 +6,7 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:0.12.1'
         classpath 'com.jakewharton.sdkmanager:gradle-plugin:0.10.1'
+//        classpath 'com.nostra13.universalimageloader:universal-image-loader:1.9.3'
     }
 }
 
@@ -27,4 +28,5 @@ android {
 }
 dependencies {
     compile 'com.android.support:support-v4:20.+'
+//    compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.3'
 }

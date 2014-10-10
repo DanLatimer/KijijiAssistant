@@ -7,16 +7,18 @@ import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.view.*;
+import android.widget.Toast;
+import com.danlatimer.android.kijiji.R;
+import com.danlatimer.android.kijiji.fragments.AdGridFragment;
 import com.danlatimer.android.kijiji.fragments.NavigationDrawerFragment;
 import com.danlatimer.android.kijiji.fragments.NewSearchFragment;
-import com.danlatimer.android.kijiji.R;
 import com.danlatimer.android.kijiji.models.MenuSection;
 import com.danlatimer.android.kijiji.models.MenuSectionNewSearch;
 import com.danlatimer.android.kijiji.models.MenuSectionSearch;
 import com.danlatimer.android.kijiji.models.Search;
 
 public class MainActivity extends Activity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks, NewSearchFragment.NewSearchFragmentListener {
+        implements NavigationDrawerFragment.NavigationDrawerCallbacks, NewSearchFragment.NewSearchFragmentListener, AdGridFragment.OnFragmentInteractionListener {
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -106,6 +108,12 @@ public class MainActivity extends Activity
         MenuSectionSearch menuSectionSearch = MenuSectionSearch.newInstance(newSearch.getSearch(), newSearch);
         mNavigationDrawerFragment.addMenuSection(menuSectionSearch);
         mNavigationDrawerFragment.selectItem(0);
+    }
+
+    @Override
+    public void onFragmentInteraction(String id)
+    {
+        Toast.makeText(this, "onFragmentInteraction(id=" + id + ")", Toast.LENGTH_LONG);
     }
 
     /**
