@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import com.danlatimer.android.kijiji.R;
 import com.danlatimer.android.kijiji.models.Ad;
@@ -52,14 +51,26 @@ public class AdAdapter extends BaseAdapter {
         }
 
         // populate view
-        ImageView adImageView = (ImageView) adView.findViewById(R.id.adImage);
 
-        Drawable catDrawable = mContext.getResources().getDrawable(R.drawable.cat01);
+        int imageResourceId = catImageArray[position % catImageArray.length];
 
-        adImageView.setImageDrawable(catDrawable);
+        Drawable catDrawable = mContext.getResources().getDrawable(imageResourceId);
+        adView.setBackground(catDrawable);
 
 
 
         return adView;
     }
+
+    int catImageArray[] = {
+            R.drawable.cat01,
+            R.drawable.cat02,
+            R.drawable.cat03,
+            R.drawable.cat04,
+            R.drawable.cat05,
+            R.drawable.cat06,
+            R.drawable.cat07,
+    };
+
+
 }

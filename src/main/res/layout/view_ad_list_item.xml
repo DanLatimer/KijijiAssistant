@@ -1,12 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="200dp"
-    android:layout_height="200dp">
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:scaleType="centerCrop"
+              android:adjustViewBounds="true"
+              android:orientation="vertical"
+              android:gravity="bottom|right"
+              android:padding="10dp" android:background="@drawable/cat01">
 
-    <ImageView
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:id="@+id/adImage"/>
-
-
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Furry Fat Cat"
+            android:id="@+id/textView2" android:textColor="@android:color/holo_blue_dark"/>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="$200.00"
+            android:id="@+id/textView3" android:textColor="@android:color/holo_blue_bright"/>
 </LinearLayout>
