@@ -6,7 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.LinearLayout;
+import android.widget.ImageView;
 import com.danlatimer.android.kijiji.R;
 import com.danlatimer.android.kijiji.models.Ad;
 
@@ -39,25 +39,26 @@ public class AdAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        LinearLayout adView;
+        View adView;
         if (convertView == null) {
             // initializeView
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            LinearLayout newView = (LinearLayout) inflater.inflate(R.layout.view_ad_list_item, parent, false);
+            View newView = inflater.inflate(R.layout.view_ad_list_item, parent, false);
             adView = newView;
 
         } else {
-            adView = (LinearLayout) convertView;
+            adView = convertView;
         }
 
         // populate view
 
         int imageResourceId = catImageArray[position % catImageArray.length];
-
         Drawable catDrawable = mContext.getResources().getDrawable(imageResourceId);
-        adView.setBackground(catDrawable);
 
+//        adView.setBackground(catDrawable);
 
+        ImageView imageView = (ImageView) adView.findViewById(R.id.adItemImage);
+        imageView.setImageDrawable(catDrawable);
 
         return adView;
     }
