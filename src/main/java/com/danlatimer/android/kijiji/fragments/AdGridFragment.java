@@ -6,10 +6,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.*;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
+import android.widget.ListAdapter;
+import android.widget.TextView;
 import com.danlatimer.android.kijiji.R;
 import com.danlatimer.android.kijiji.adapters.AdAdapter;
-import com.danlatimer.android.kijiji.fragments.dummy.DummyContent;
 import com.danlatimer.android.kijiji.models.Ad;
 
 import java.util.ArrayList;
@@ -46,8 +48,6 @@ public class AdGridFragment extends Fragment implements AbsListView.OnItemClickL
      */
     private ListAdapter mAdapter;
 
-    private List<Ad> mAds = new ArrayList<Ad>();
-
     // TODO: Rename and change types of parameters
     public static AdGridFragment newInstance(String param1, String param2) {
         AdGridFragment fragment = new AdGridFragment();
@@ -74,9 +74,13 @@ public class AdGridFragment extends Fragment implements AbsListView.OnItemClickL
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
+        List<Ad> ads = new ArrayList<Ad>();
+        for(int i = 0; i < 20; i++) {
+            ads.add(new Ad("title", "desc"));
+        }
+
         // TODO: Change Adapter to display your content
-        mAdapter = new ArrayAdapter<Ad>(getActivity(),
-                android.R.layout.simple_list_item_1, android.R.id.text1, mAds);
+        mAdapter = new AdAdapter(getActivity(), ads);
     }
 
     @Override
@@ -87,7 +91,7 @@ public class AdGridFragment extends Fragment implements AbsListView.OnItemClickL
         // Set the adapter
         mListView = (AbsListView) view.findViewById(android.R.id.list);
 //        ((AdapterView<ListAdapter>) mListView).setAdapter(mAdapter);
-        ((AdapterView<ListAdapter>) mListView).setAdapter(new AdAdapter(getActivity()));
+        ((AdapterView<ListAdapter>) mListView).setAdapter(mAdapter);
 
         // Set OnItemClickListener so we can be notified on item clicks
         mListView.setOnItemClickListener(this);
@@ -118,7 +122,7 @@ public class AdGridFragment extends Fragment implements AbsListView.OnItemClickL
         if (null != mListener) {
             // Notify the active callbacks interface (the activity, if the
             // fragment is attached to one) that an item has been selected.
-            mListener.onFragmentInteraction(DummyContent.ITEMS.get(position).id);
+//            mListener.onFragmentInteraction(DummyContent.ITEMS.get(position).id);
         }
     }
 

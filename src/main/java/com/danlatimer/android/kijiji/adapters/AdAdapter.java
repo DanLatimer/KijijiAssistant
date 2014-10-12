@@ -10,6 +10,9 @@ import android.widget.ImageView;
 import com.danlatimer.android.kijiji.R;
 import com.danlatimer.android.kijiji.models.Ad;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Array Adapter for Ad objects
  */
@@ -17,18 +20,21 @@ public class AdAdapter extends BaseAdapter {
 
     Context mContext;
 
-    public AdAdapter(Context context) {
+    private List<Ad> mAds = new ArrayList<Ad>();
+
+    public AdAdapter(Context context, List<Ad> ads) {
         mContext = context;
+        mAds = ads;
     }
 
     @Override
     public int getCount() {
-        return 30;
+        return mAds.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return new Ad("title", "description");
+        return mAds.get(position);
     }
 
     @Override
@@ -43,7 +49,7 @@ public class AdAdapter extends BaseAdapter {
         if (convertView == null) {
             // initializeView
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View newView = inflater.inflate(R.layout.view_ad_list_item, parent, false);
+            View newView = inflater.inflate(R.layout.single_ad_grid, parent, false);
             adView = newView;
 
         } else {
@@ -57,8 +63,11 @@ public class AdAdapter extends BaseAdapter {
 
 //        adView.setBackground(catDrawable);
 
-        ImageView imageView = (ImageView) adView.findViewById(R.id.adItemImage);
+        ImageView imageView = (ImageView) adView.findViewById(R.id.grid_image);
         imageView.setImageDrawable(catDrawable);
+
+//        TextView textView = (TextView) adView.findViewById(R.id.grid_text);
+//        textView.setText("Furry Fat Cat\n$200.00");
 
         return adView;
     }
