@@ -6,10 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
-import android.widget.ListAdapter;
-import android.widget.TextView;
+import android.widget.*;
 import com.danlatimer.android.kijiji.R;
 import com.danlatimer.android.kijiji.adapters.AdAdapter;
 import com.danlatimer.android.kijiji.models.Ad;
@@ -79,7 +76,6 @@ public class AdGridFragment extends Fragment implements AbsListView.OnItemClickL
             ads.add(new Ad("title", "desc"));
         }
 
-        // TODO: Change Adapter to display your content
         mAdapter = new AdAdapter(getActivity(), ads);
     }
 
@@ -120,6 +116,9 @@ public class AdGridFragment extends Fragment implements AbsListView.OnItemClickL
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if (null != mListener) {
+
+            Toast.makeText(getActivity(), "Item Clicked: " + position, Toast.LENGTH_SHORT);
+
             // Notify the active callbacks interface (the activity, if the
             // fragment is attached to one) that an item has been selected.
 //            mListener.onFragmentInteraction(DummyContent.ITEMS.get(position).id);
