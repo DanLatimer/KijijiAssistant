@@ -1,6 +1,7 @@
 package com.danlatimer.android.kijiji.models;
 
 import android.app.Fragment;
+import android.os.Bundle;
 
 /**
  * Represents a section of the navigation menu. Base class that is
@@ -8,7 +9,10 @@ import android.app.Fragment;
  *
  * Contains the fragment to be displayed when the section is selected.
  */
-public class MenuSection {
+public abstract class MenuSection {
+
+    public static final String MENU_TYPE_KEY = "MENU_TYPE";
+    public static final String MENU_SECTION_NAME_KEY = "MENU_SECTION_NAME";
 
     private String mSectionName;
     private Fragment mFragment;
@@ -30,5 +34,41 @@ public class MenuSection {
     public Fragment getFragment() {
         return mFragment;
     }
+
+    public abstract String getType();
+
+    public Bundle getSaveStateBundle() {
+        Bundle savedState = new Bundle();
+        savedState.putString(MENU_TYPE_KEY, getType());
+        savedState.putString(MENU_SECTION_NAME_KEY, mSectionName);
+
+        return savedState;
+    }
+
+    public void restoreState(Bundle savedState) {
+        mSectionName = savedState.getString(MENU_SECTION_NAME_KEY);
+    }
+
+    /**
+     * Factory method to create MenuSections from a serialized state
+     * (saved state bundle)
+     *
+     * @param savedState
+     * @return
+     */
+    public static MenuSection buildMenuSection(Bundle savedState) {
+        String type = savedState.getString(MENU_TYPE_KEY);
+
+        if(type.equals(MenuSectionNewSearch.type)) {
+            return MenuSectionNewSearch.newInstance(savedState);
+        }
+
+        if(type.equals(MenuSectionSearchResults.type)) {
+            return MenuSectionSearchResults.newInstance(savedState);
+        }
+
+        return null;
+    }
+
 
 }

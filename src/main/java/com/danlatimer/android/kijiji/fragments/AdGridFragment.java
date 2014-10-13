@@ -32,7 +32,7 @@ public class AdGridFragment extends Fragment implements AbsListView.OnItemClickL
     private String mParam1;
     private String mParam2;
 
-    private OnFragmentInteractionListener mListener;
+    private AdGridInteractionListener mListener;
 
     /**
      * The fragment's ListView/GridView.
@@ -73,7 +73,7 @@ public class AdGridFragment extends Fragment implements AbsListView.OnItemClickL
 
         List<Ad> ads = new ArrayList<Ad>();
         for(int i = 0; i < 20; i++) {
-            ads.add(new Ad("title", "desc"));
+            ads.add(new Ad("title", "desc", i));
         }
 
         mAdapter = new AdAdapter(getActivity(), ads);
@@ -99,7 +99,7 @@ public class AdGridFragment extends Fragment implements AbsListView.OnItemClickL
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         try {
-            mListener = (OnFragmentInteractionListener) activity;
+            mListener = (AdGridInteractionListener) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
                 + " must implement OnFragmentInteractionListener");
@@ -116,12 +116,8 @@ public class AdGridFragment extends Fragment implements AbsListView.OnItemClickL
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if (null != mListener) {
-
-            Toast.makeText(getActivity(), "Item Clicked: " + position, Toast.LENGTH_SHORT);
-
-            // Notify the active callbacks interface (the activity, if the
-            // fragment is attached to one) that an item has been selected.
-//            mListener.onFragmentInteraction(DummyContent.ITEMS.get(position).id);
+            Ad ad = (Ad) mAdapter.getItem(position);
+            mListener.onAdSelected(ad.getKijijiId());
         }
     }
 
@@ -148,9 +144,9 @@ public class AdGridFragment extends Fragment implements AbsListView.OnItemClickL
     * "http://developer.android.com/training/basics/fragments/communicating.html"
     * >Communicating with Other Fragments</a> for more information.
     */
-    public interface OnFragmentInteractionListener {
+    public interface AdGridInteractionListener {
         // TODO: Update argument type and name
-        public void onFragmentInteraction(String id);
+        public void onAdSelected(int id);
     }
 
 }

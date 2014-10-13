@@ -85,6 +85,14 @@ public class NavigationDrawerFragment extends Fragment {
         if (savedInstanceState != null) {
             mCurrentSelectedPosition = savedInstanceState.getInt(STATE_SELECTED_POSITION);
             mFromSavedInstanceState = true;
+
+            int numberOfMenuSections = savedInstanceState.getInt(NUMBER_OF_MENU_SECTIONS_KEY);
+            for(int i = 0; i < numberOfMenuSections; i++) {
+                String menuSectionKey = MENU_SECTION_KEY_PREFIX + i;
+
+                Bundle menuSectionBundle = savedInstanceState.getBundle(menuSectionKey);
+                mMenuSections.add(MenuSection.buildMenuSection(menuSectionBundle));
+            }
         }
 
         // Select either the default item (0) or the last selected item.
@@ -137,6 +145,15 @@ public class NavigationDrawerFragment extends Fragment {
      */
     public MenuSection getMenuSection(int index) {
         return mMenuSections.get(index);
+    }
+
+    /**
+     * Returns the number of menu sections in the navigation drawer
+     *
+     * @return
+     */
+    public int getNumberOfSections() {
+        return mMenuSections.size();
     }
 
     /**
@@ -242,10 +259,24 @@ public class NavigationDrawerFragment extends Fragment {
         mCallbacks = null;
     }
 
+    private static final String MENU_SECTION_KEY_PREFIX = "MENU_SECTION_NUMBER_";
+    private static final String NUMBER_OF_MENU_SECTIONS_KEY = "NUMBER_OF_MENU_SECTIONS";
+
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt(STATE_SELECTED_POSITION, mCurrentSelectedPosition);
+
+        int numberOfMenuSections = mMenuSections.size();
+        outState.putInt(NUMBER_OF_MENU_SECTIONS_KEY, numberOfMenuSections);
+
+        int currentMenuSection = 0;
+        for(MenuSection menuSection : mMenuSections) {
+            String menuSectionKey = MENU_SECTION_KEY_PREFIX + currentMenuSection;
+
+            outState.putBundle(menuSectionKey, menuSection.getSaveStateBundle());
+            currentMenuSection++;
+        }
     }
 
     @Override

@@ -7,18 +7,17 @@ import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.view.*;
-import android.widget.Toast;
 import com.danlatimer.android.kijiji.R;
 import com.danlatimer.android.kijiji.fragments.AdGridFragment;
 import com.danlatimer.android.kijiji.fragments.NavigationDrawerFragment;
 import com.danlatimer.android.kijiji.fragments.NewSearchFragment;
 import com.danlatimer.android.kijiji.models.MenuSection;
 import com.danlatimer.android.kijiji.models.MenuSectionNewSearch;
-import com.danlatimer.android.kijiji.models.MenuSectionSearch;
+import com.danlatimer.android.kijiji.models.MenuSectionSearchResults;
 import com.danlatimer.android.kijiji.models.Search;
 
 public class MainActivity extends Activity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks, NewSearchFragment.NewSearchFragmentListener, AdGridFragment.OnFragmentInteractionListener {
+        implements NavigationDrawerFragment.NavigationDrawerCallbacks, NewSearchFragment.NewSearchFragmentListener, AdGridFragment.AdGridInteractionListener {
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -39,8 +38,11 @@ public class MainActivity extends Activity
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getFragmentManager().findFragmentById(R.id.navigation_drawer);
 
-        String newSearchSection = getString(R.string.title_new_search);
-        mNavigationDrawerFragment.addMenuSection(MenuSectionNewSearch.newInstance(newSearchSection));
+        boolean navDrawerEmpty = (mNavigationDrawerFragment.getNumberOfSections() == 0);
+        if(navDrawerEmpty) {
+            String newSearchSection = getString(R.string.title_new_search);
+            mNavigationDrawerFragment.addMenuSection(MenuSectionNewSearch.newInstance(newSearchSection));
+        }
 
         mTitle = getTitle();
 
@@ -105,15 +107,18 @@ public class MainActivity extends Activity
     @Override
     public void onSearchCreated(Search newSearch) {
 
-        MenuSectionSearch menuSectionSearch = MenuSectionSearch.newInstance(newSearch.getSearch(), newSearch);
-        mNavigationDrawerFragment.addMenuSection(menuSectionSearch);
+        MenuSectionSearchResults menuSectionSearchResults = MenuSectionSearchResults.newInstance(newSearch.getSearch(), newSearch);
+        mNavigationDrawerFragment.addMenuSection(menuSectionSearchResults);
         mNavigationDrawerFragment.selectItem(0);
     }
 
     @Override
-    public void onFragmentInteraction(String id)
+    public void onAdSelected(int kijijiId)
     {
-        Toast.makeText(this, "onFragmentInteraction(id=" + id + ")", Toast.LENGTH_LONG);
+        // TODO: If there is space open in new fragment, otherwise open in new activity
+
+
+
     }
 
     /**
