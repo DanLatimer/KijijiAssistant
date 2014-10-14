@@ -18,9 +18,13 @@ import android.widget.ListView;
 import android.widget.Toast;
 import com.danlatimer.android.kijiji.R;
 import com.danlatimer.android.kijiji.models.MenuSection;
+import com.danlatimer.android.kijiji.utils.BundleUtils;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.
@@ -39,6 +43,8 @@ public class NavigationDrawerFragment extends Fragment {
      * expands it. This shared preference tracks this.
      */
     private static final String PREF_USER_LEARNED_DRAWER = "navigation_drawer_learned";
+    private static final String NAV_DRAWER_SHARED_PREFS_FILE = "NavDrawerSharedPrefs";
+    private static final String NAV_DRAWER_BUNDLE = "NAV_DRAWER_BUNDLE";
 
     /**
      * A pointer to the current callbacks instance (the Activity).
@@ -82,25 +88,51 @@ public class NavigationDrawerFragment extends Fragment {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
         mUserLearnedDrawer = sp.getBoolean(PREF_USER_LEARNED_DRAWER, false);
 
+        if (savedInstanceState == null) {
+            savedInstanceState = getSavedInstanceFromSharedPrefs();
+        }
+        loadStateFromSavedInstance(savedInstanceState);
+
+        // Select either the default item (0) or the last selected item.
+        selectItem(mCurrentSelectedPosition);
+    }
+
+    /**
+     * Loads the Nav Drawer state from the saved instance data
+     *
+     * @param savedInstanceState
+     */
+    private void loadStateFromSavedInstance(Bundle savedInstanceState) {
         if (savedInstanceState != null) {
             mCurrentSelectedPosition = savedInstanceState.getInt(STATE_SELECTED_POSITION);
             mFromSavedInstanceState = true;
 
             int numberOfMenuSections = savedInstanceState.getInt(NUMBER_OF_MENU_SECTIONS_KEY);
-            for(int i = 0; i < numberOfMenuSections; i++) {
+            for (int i = 0; i < numberOfMenuSections; i++) {
                 String menuSectionKey = MENU_SECTION_KEY_PREFIX + i;
 
                 Bundle menuSectionBundle = savedInstanceState.getBundle(menuSectionKey);
                 mMenuSections.add(MenuSection.buildMenuSection(menuSectionBundle));
             }
         }
+    }
 
-        // Select either the default item (0) or the last selected item.
-        selectItem(mCurrentSelectedPosition);
+    /**
+     * Load state information from shared prefs
+     */
+    private Bundle getSavedInstanceFromSharedPrefs() {
+        SharedPreferences sharedPrefs = getActivity().getSharedPreferences(NAV_DRAWER_SHARED_PREFS_FILE, 0);
+
+        String serializedState = sharedPrefs.getString(NAV_DRAWER_BUNDLE, null);
+        if (serializedState != null) {
+            return BundleUtils.bundleFromJson(serializedState);
+        }
+
+        return null;
     }
 
     @Override
-    public void onActivityCreated (Bundle savedInstanceState) {
+    public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         // Indicate that this fragment would like to influence the set of actions in the action bar.
         setHasOptionsMenu(true);
@@ -108,7 +140,7 @@ public class NavigationDrawerFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+                             Bundle savedInstanceState) {
 
         mDrawerListView = (ListView) inflater.inflate(
                 R.layout.fragment_navigation_drawer, container, false);
@@ -264,19 +296,35 @@ public class NavigationDrawerFragment extends Fragment {
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
+
+        Map<String, Object> state = new HashMap<String, Object>();
+
         super.onSaveInstanceState(outState);
         outState.putInt(STATE_SELECTED_POSITION, mCurrentSelectedPosition);
+        state.put(STATE_SELECTED_POSITION, mCurrentSelectedPosition);
 
         int numberOfMenuSections = mMenuSections.size();
         outState.putInt(NUMBER_OF_MENU_SECTIONS_KEY, numberOfMenuSections);
+        state.put(NUMBER_OF_MENU_SECTIONS_KEY, numberOfMenuSections);
 
         int currentMenuSection = 0;
-        for(MenuSection menuSection : mMenuSections) {
+        for (MenuSection menuSection : mMenuSections) {
             String menuSectionKey = MENU_SECTION_KEY_PREFIX + currentMenuSection;
 
-            outState.putBundle(menuSectionKey, menuSection.getSaveStateBundle());
+            Map<String, Object> menuSectionState = menuSection.getSaveState();
+
+            Bundle bundle = BundleUtils.bundleFromMap(menuSectionState);
+            outState.putBundle(menuSectionKey, bundle);
+            state.put(menuSectionKey, menuSectionState);
+
             currentMenuSection++;
         }
+
+        Gson gson = new Gson();
+        SharedPreferences.Editor sharedPrefsEditor = getActivity().getSharedPreferences(NAV_DRAWER_SHARED_PREFS_FILE, 0).edit();
+        String serializedBundle = gson.toJson(state);
+        sharedPrefsEditor.putString(NAV_DRAWER_BUNDLE, serializedBundle);
+        sharedPrefsEditor.commit();
     }
 
     @Override

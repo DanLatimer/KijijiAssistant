@@ -3,6 +3,9 @@ package com.danlatimer.android.kijiji.models;
 import android.app.Fragment;
 import android.os.Bundle;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Represents a section of the navigation menu. Base class that is
  * overridden with more specific functionality.
@@ -37,12 +40,12 @@ public abstract class MenuSection {
 
     public abstract String getType();
 
-    public Bundle getSaveStateBundle() {
-        Bundle savedState = new Bundle();
-        savedState.putString(MENU_TYPE_KEY, getType());
-        savedState.putString(MENU_SECTION_NAME_KEY, mSectionName);
+    public Map<String, Object> getSaveState() {
+        Map<String, Object> state = new HashMap<String, Object>();
+        state.put(MENU_TYPE_KEY, getType());
+        state.put(MENU_SECTION_NAME_KEY, mSectionName);
 
-        return savedState;
+        return state;
     }
 
     public void restoreState(Bundle savedState) {

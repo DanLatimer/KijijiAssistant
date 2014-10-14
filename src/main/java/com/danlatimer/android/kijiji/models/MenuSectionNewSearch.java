@@ -4,6 +4,8 @@ import android.app.Fragment;
 import android.os.Bundle;
 import com.danlatimer.android.kijiji.fragments.NewSearchFragment;
 
+import java.util.Map;
+
 /**
  * A menu section that allows the user to create a new search.
  */
@@ -21,8 +23,8 @@ public class MenuSectionNewSearch extends MenuSection {
     }
 
     @Override
-    public Bundle getSaveStateBundle() {
-        Bundle savedState = super.getSaveStateBundle();
+    public Map<String, Object> getSaveState() {
+        Map<String, Object> savedState = super.getSaveState();
 
         return savedState;
     }
