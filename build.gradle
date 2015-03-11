@@ -4,10 +4,11 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.12.1'
+        classpath 'com.android.tools.build:gradle:1.0.0'
         classpath 'com.jakewharton.sdkmanager:gradle-plugin:0.10.1'
         classpath 'com.google.code.gson:gson:1.7.2'
         classpath 'com.nostra13.universalimageloader:universal-image-loader:1.9.3'
+        classpath 'org.jsoup:jsoup:1.8.1'
     }
 }
 
@@ -32,7 +33,12 @@ android {
     }
 }
 dependencies {
+    compile fileTree(dir: 'libs', include: '*.jar')
+
     compile 'com.android.support:support-v4:20.+'
     compile 'com.google.code.gson:gson:1.7.2'
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.3'
+    compile 'com.squareup.retrofit:retrofit:1.7.0'
+    compile 'org.jsoup:jsoup:1.8.1'
+
 }

@@ -1,0 +1,43 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.AdDescriptionFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:padding="10dp">
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Title: "
+                android:id="@+id/textView"/>
+        <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/horizontalScrollView"
+                android:padding="20dp">
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:focusable="false"
+                    >
+                <include layout="@layout/ad_image_scroll_view_item"/>
+                <include layout="@layout/ad_image_scroll_view_item"/>
+                <include layout="@layout/ad_image_scroll_view_item"/>
+                <include layout="@layout/ad_image_scroll_view_item"/>
+                <include layout="@layout/ad_image_scroll_view_item"/>
+            </LinearLayout>
+        </HorizontalScrollView>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="This is my description. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris magna nulla, sodales a lacus in, pretium sollicitudin felis. Proin fermentum, mi sed pretium dictum, eros ex posuere nisi, eget consequat ligula felis at libero. Praesent vestibulum maximus est id ultricies. Aliquam vestibulum luctus maximus. Vivamus mattis ligula elementum, vulputate velit vitae, vulputate odio. Aliquam eget tortor et augue cursus pulvinar. Maecenas at tristique mauris. Quisque faucibus tellus turpis, vitae sollicitudin lacus ultricies ac. Praesent hendrerit lobortis tristique. Etiam in justo tincidunt, faucibus odio vitae, aliquet turpis. Ut semper ornare tellus in bibendum. Nunc ac ipsum eu mauris vehicula tempus ut quis turpis. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris ante ligula, dapibus non sodales vitae, lacinia sed magna. Phasellus quis ante in massa faucibus ullamcorper. Nam in odio mattis, pharetra odio in, semper magna." />
+    </LinearLayout>
+
+</FrameLayout>

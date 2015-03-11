@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.view.*;
 import com.danlatimer.android.kijiji.R;
+import com.danlatimer.android.kijiji.fragments.AdDescriptionFragment;
 import com.danlatimer.android.kijiji.fragments.AdGridFragment;
 import com.danlatimer.android.kijiji.fragments.NavigationDrawerFragment;
 import com.danlatimer.android.kijiji.fragments.NewSearchFragment;
@@ -116,8 +117,16 @@ public class MainActivity extends Activity
     public void onAdSelected(int kijijiId)
     {
         // TODO: If there is space open in new fragment, otherwise open in new activity
+        AdDescriptionFragment adDescriptionFragment = AdDescriptionFragment.newInstance();
 
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.container, adDescriptionFragment)
+                .addToBackStack(null)
+                .commit();
 
+        mTitle = adDescriptionFragment.getTitle();
+        restoreActionBar();
 
     }
 

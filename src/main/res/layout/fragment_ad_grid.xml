@@ -8,14 +8,13 @@
     <GridView
             android:id="@android:id/list"
             android:gravity="center"
-            android:background="#123123"
             tools:listitem="@layout/single_ad_grid"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:verticalSpacing="0dp"
-            android:horizontalSpacing="0dp"
+            android:verticalSpacing="@dimen/image_separator"
+            android:horizontalSpacing="@dimen/image_separator"
             android:stretchMode="columnWidth"
-            android:numColumns="3"
+            android:numColumns="2"
             />
 
     <LinearLayout

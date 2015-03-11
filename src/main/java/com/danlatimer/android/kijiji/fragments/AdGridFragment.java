@@ -6,10 +6,15 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.*;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
+import android.widget.ListAdapter;
+import android.widget.TextView;
 import com.danlatimer.android.kijiji.R;
 import com.danlatimer.android.kijiji.adapters.AdAdapter;
 import com.danlatimer.android.kijiji.models.Ad;
+import com.danlatimer.android.kijiji.web.KijijiRestApi;
+import retrofit.RestAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,11 +30,11 @@ public class AdGridFragment extends Fragment implements AbsListView.OnItemClickL
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_SEARCH_QUERY = "param1";
     private static final String ARG_PARAM2 = "param2";
 
     // TODO: Rename and change types of parameters
-    private String mParam1;
+    private String mSearchQuery;
     private String mParam2;
 
     private AdGridInteractionListener mListener;
@@ -46,11 +51,10 @@ public class AdGridFragment extends Fragment implements AbsListView.OnItemClickL
     private ListAdapter mAdapter;
 
     // TODO: Rename and change types of parameters
-    public static AdGridFragment newInstance(String param1, String param2) {
+    public static AdGridFragment newInstance(String searchQuery) {
         AdGridFragment fragment = new AdGridFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putString(ARG_SEARCH_QUERY, searchQuery);
         fragment.setArguments(args);
         return fragment;
     }
@@ -67,9 +71,14 @@ public class AdGridFragment extends Fragment implements AbsListView.OnItemClickL
         super.onCreate(savedInstanceState);
 
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            mSearchQuery = getArguments().getString(ARG_SEARCH_QUERY);
         }
+
+        RestAdapter restAdapter = new RestAdapter.Builder()
+                .setEndpoint("https://api.soundcloud.com")
+                .build();
+
+        KijijiRestApi service = restAdapter.create(KijijiRestApi.class);
 
         List<Ad> ads = new ArrayList<Ad>();
         for(int i = 0; i < 20; i++) {
