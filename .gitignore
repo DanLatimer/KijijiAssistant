@@ -3,6 +3,7 @@
 !.idea_template
 !.htaccess
 
+.idea
 *.iml
 *.orig
 *.mo
